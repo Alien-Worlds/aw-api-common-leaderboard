@@ -50,6 +50,10 @@ export class LeaderboardRankingsRedisSource {
       new SortedCollectionRedisSource(redisSource, `${prefix}_avg_nft_power`)
     );
     this.collections.set(
+      LeaderboardSort.AvgToolPower,
+      new SortedCollectionRedisSource(redisSource, `${prefix}_avg_tool_power`)
+    );
+    this.collections.set(
       LeaderboardSort.LandsMinedOn,
       new SortedCollectionRedisSource(redisSource, `${prefix}_lands_mined_on`)
     );
@@ -66,6 +70,7 @@ export class LeaderboardRankingsRedisSource {
     const avgChargeTime = [];
     const avgMiningPower = [];
     const avgNftPower = [];
+    const avgToolPower = [];
     const landsMinedOn = [];
     const planetsMinedOn = [];
 
@@ -77,6 +82,7 @@ export class LeaderboardRankingsRedisSource {
         avg_charge_time,
         avg_mining_power,
         avg_nft_power,
+        avg_tool_power,
         lands_mined_on,
         planets_mined_on,
         unique_tools_used,
@@ -87,6 +93,7 @@ export class LeaderboardRankingsRedisSource {
       avgChargeTime.push({ score: avg_charge_time, value: wallet_id });
       avgMiningPower.push({ score: avg_mining_power, value: wallet_id });
       avgNftPower.push({ score: avg_nft_power, value: wallet_id });
+      avgToolPower.push({ score: avg_tool_power, value: wallet_id });
       landsMinedOn.push({ score: lands_mined_on, value: wallet_id });
       planetsMinedOn.push({ score: planets_mined_on, value: wallet_id });
     }
@@ -103,6 +110,7 @@ export class LeaderboardRankingsRedisSource {
       .get(LeaderboardSort.AvgMiningPower)
       .addMany(avgMiningPower);
     this.collections.get(LeaderboardSort.AvgNftPower).addMany(avgNftPower);
+    this.collections.get(LeaderboardSort.AvgToolPower).addMany(avgToolPower);
     this.collections.get(LeaderboardSort.LandsMinedOn).addMany(landsMinedOn);
     this.collections
       .get(LeaderboardSort.PlanetsMinedOn)
