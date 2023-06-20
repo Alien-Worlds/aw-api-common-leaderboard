@@ -4,8 +4,6 @@ import { MinigToolData } from '../../data/leaderboard.dtos';
 import { Leaderboard } from '../entities/leaderboard';
 import { LeaderboardUpdate } from '../entities/leaderboard-update';
 
-/*imports*/
-
 /**
  * @class
  */
@@ -30,38 +28,40 @@ export class CreateUserLeaderboardUseCase implements UseCase<Leaderboard> {
       landId,
       planetName,
       bagItems,
+      luck,
+      ease,
     } = update;
     const toolsUsed = [];
     let totalChargeTime = 0;
-    let totalMiningPower = 0;
-    let totalNftPower = 0;
+    let totalToolMiningPower = 0;
+    let totalToolNftPower = 0;
     let avgNftPower = 0;
-    let totalToolPower = 0;
-    let avgToolPower = 0;
+    let avgToolMiningPower = 0;
+    let avgToolNftPower = 0;
     let avgChargeTime = 0;
     let avgMiningPower = 0;
 
     assets.forEach(asset => {
-      const {
-        assetId,
-        data: { ease, delay, difficulty, luck },
-      } = asset;
+      const { assetId, data } = asset;
 
       if (bagItems.includes(assetId)) {
         toolsUsed.push(assetId);
-        totalChargeTime += delay || 0;
-        totalMiningPower += ease || 0;
-        totalNftPower += luck || 0;
-        totalToolPower += difficulty || 0;
+        totalChargeTime += data.delay || 0;
+        totalToolMiningPower += data.ease || 0;
+        totalToolNftPower += data.luck || 0;
       }
     });
-    const toolsCount = toolsUsed.length;
 
+    const toolsCount = toolsUsed.length;
+    const totalMiningPower = ease;
+    const totalNftPower = luck;
+    
     if (toolsCount > 0) {
       avgChargeTime = totalChargeTime / toolsCount;
       avgMiningPower = totalMiningPower / toolsCount;
       avgNftPower = totalNftPower / toolsCount;
-      avgToolPower = totalToolPower / toolsCount;
+      avgToolMiningPower = totalToolMiningPower / toolsCount;
+      avgToolNftPower = totalToolNftPower / toolsCount;
     }
 
     const leaderboard = Leaderboard.create(
@@ -78,14 +78,14 @@ export class CreateUserLeaderboardUseCase implements UseCase<Leaderboard> {
       avgMiningPower,
       totalNftPower,
       avgNftPower,
-      totalToolPower,
-      avgToolPower,
+      totalToolMiningPower,
+      avgToolMiningPower,
+      totalToolNftPower,
+      avgToolNftPower,
       landId ? [landId] : [],
       planetName ? [planetName] : [],
       toolsUsed
     );
     return Result.withContent(leaderboard);
   }
-
-  /*methods*/
 }

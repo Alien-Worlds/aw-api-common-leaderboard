@@ -50,8 +50,18 @@ export class LeaderboardRankingsRedisSource {
       new SortedCollectionRedisSource(redisSource, `${prefix}_avg_nft_power`)
     );
     this.collections.set(
-      LeaderboardSort.AvgToolPower,
-      new SortedCollectionRedisSource(redisSource, `${prefix}_avg_tool_power`)
+      LeaderboardSort.AvgToolMiningPower,
+      new SortedCollectionRedisSource(
+        redisSource,
+        `${prefix}_avg_tool_mining_power`
+      )
+    );
+    this.collections.set(
+      LeaderboardSort.AvgToolNftPower,
+      new SortedCollectionRedisSource(
+        redisSource,
+        `${prefix}_avg_tool_nft_power`
+      )
     );
     this.collections.set(
       LeaderboardSort.LandsMinedOn,
@@ -70,7 +80,8 @@ export class LeaderboardRankingsRedisSource {
     const avgChargeTime = [];
     const avgMiningPower = [];
     const avgNftPower = [];
-    const avgToolPower = [];
+    const avgToolMiningPower = [];
+    const avgToolNftPower = [];
     const landsMinedOn = [];
     const planetsMinedOn = [];
 
@@ -82,7 +93,8 @@ export class LeaderboardRankingsRedisSource {
         avg_charge_time,
         avg_mining_power,
         avg_nft_power,
-        avg_tool_power,
+        avg_tool_mining_power,
+        avg_tool_nft_power,
         lands_mined_on,
         planets_mined_on,
         unique_tools_used,
@@ -93,7 +105,11 @@ export class LeaderboardRankingsRedisSource {
       avgChargeTime.push({ score: avg_charge_time, value: wallet_id });
       avgMiningPower.push({ score: avg_mining_power, value: wallet_id });
       avgNftPower.push({ score: avg_nft_power, value: wallet_id });
-      avgToolPower.push({ score: avg_tool_power, value: wallet_id });
+      avgToolMiningPower.push({
+        score: avg_tool_mining_power,
+        value: wallet_id,
+      });
+      avgToolNftPower.push({ score: avg_tool_nft_power, value: wallet_id });
       landsMinedOn.push({ score: lands_mined_on, value: wallet_id });
       planetsMinedOn.push({ score: planets_mined_on, value: wallet_id });
     }
@@ -110,7 +126,12 @@ export class LeaderboardRankingsRedisSource {
       .get(LeaderboardSort.AvgMiningPower)
       .addMany(avgMiningPower);
     this.collections.get(LeaderboardSort.AvgNftPower).addMany(avgNftPower);
-    this.collections.get(LeaderboardSort.AvgToolPower).addMany(avgToolPower);
+    this.collections
+      .get(LeaderboardSort.AvgToolMiningPower)
+      .addMany(avgToolMiningPower);
+    this.collections
+      .get(LeaderboardSort.AvgToolNftPower)
+      .addMany(avgToolNftPower);
     this.collections.get(LeaderboardSort.LandsMinedOn).addMany(landsMinedOn);
     this.collections
       .get(LeaderboardSort.PlanetsMinedOn)

@@ -7,6 +7,10 @@ export type LeaderboardUpdateDocument = {
   username?: string;
   bounty?: number;
   points?: number;
+  ease?: number;
+  luck?: number;
+  difficulty?: number;
+  delay?: number;
   land_id?: MongoDB.Long;
   planet_name?: string;
   bag_items?: MongoDB.Long[];
@@ -22,6 +26,10 @@ export type LeaderboardUpdateJson = {
   username?: string;
   bounty?: number;
   points?: number;
+  ease?: number;
+  luck?: number;
+  difficulty?: number;
+  delay?: number;
   land_id?: string;
   planet_name?: string;
   bag_items?: string[];
@@ -37,7 +45,8 @@ export type LeaderboardNumbers = {
   avg_charge_time?: number;
   avg_mining_power?: number;
   avg_nft_power?: number;
-  avg_tool_power?: number;
+  avg_tool_mining_power?: number;
+  avg_tool_nft_power?: number;
   lands_mined_on?: number;
   planets_mined_on?: number;
 };
@@ -55,7 +64,8 @@ export type LeaderboardDocument = LeaderboardNumbers & {
   total_charge_time?: number;
   total_mining_power?: number;
   total_nft_power?: number;
-  total_tool_power?: number;
+  total_tool_mining_power?: number;
+  total_tool_nft_power?: number;
   lands?: MongoDB.Long[];
   planets?: string[];
   lands_mined_on?: number;
@@ -85,7 +95,8 @@ export type LeaderboardJson = LeaderboardNumbers & {
   total_charge_time?: number;
   total_mining_power?: number;
   total_nft_power?: number;
-  total_tool_power?: number;
+  total_tool_mining_power?: number;
+  total_tool_nft_power?: number;
   lands?: string[];
   planets?: string[];
   lands_mined_on?: number;

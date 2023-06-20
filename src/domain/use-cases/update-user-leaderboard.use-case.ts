@@ -5,7 +5,6 @@ import { Leaderboard } from '../entities/leaderboard';
 import { LeaderboardUpdate } from '../entities/leaderboard-update';
 import { nanoid } from 'nanoid';
 
-/*imports*/
 /**
  * @class
  */
@@ -23,13 +22,17 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
   ): Promise<Result<Leaderboard>> {
     const points = update.points || 0;
     const bounty = update.bounty || 0;
+    const ease = update.ease || 0;
+    const luck = update.luck || 0;
+
     const toolsUsed: bigint[] = current.toolsUsed || [];
     const lands = current.lands;
     const planets = current.planets;
     let totalChargeTime = current.totalChargeTime;
     let totalMiningPower = current.totalMiningPower;
     let totalNftPower = current.totalNftPower;
-    let totalToolPower = current.totalToolPower;
+    let totalToolMiningPower = current.totalToolMiningPower;
+    let totalToolNftPower = current.totalToolNftPower;
 
     if (update.planetName && planets.indexOf(update.planetName) === -1) {
       planets.push(update.planetName);
@@ -40,22 +43,21 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
     }
 
     assets.forEach(asset => {
-      const {
-        assetId,
-        data: { ease, delay, difficulty, luck },
-      } = asset;
+      const { assetId, data } = asset;
 
       if (
         toolsUsed.indexOf(assetId) === -1 &&
         update.bagItems.includes(assetId)
       ) {
         toolsUsed.push(assetId);
-        totalChargeTime += delay;
-        totalMiningPower += ease;
-        totalNftPower += luck;
-        totalToolPower += difficulty;
+        totalChargeTime += data.delay;
+        totalToolMiningPower += data.ease;
+        totalToolNftPower += data.luck;
       }
     });
+
+    totalMiningPower += ease;
+    totalNftPower += luck;
 
     const toolsCount = toolsUsed.length;
     const avgChargeTime = toolsCount
@@ -67,9 +69,12 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
     const avgNftPower = toolsCount
       ? totalNftPower / toolsCount
       : current.avgNftPower;
-    const avgToolPower = toolsCount
-      ? totalToolPower / toolsCount
-      : current.avgToolPower;
+    const avgToolMiningPower = toolsCount
+      ? totalToolMiningPower / toolsCount
+      : current.avgToolMiningPower;
+    const avgToolNftPower = toolsCount
+      ? totalToolNftPower / toolsCount
+      : current.avgToolNftPower;
 
     const leaderboard = Leaderboard.create(
       update.blockNumber,
@@ -85,8 +90,10 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
       avgMiningPower,
       totalNftPower,
       avgNftPower,
-      totalToolPower,
-      avgToolPower,
+      totalToolMiningPower,
+      avgToolMiningPower,
+      totalToolNftPower,
+      avgToolNftPower,
       lands,
       planets,
       toolsUsed,
@@ -95,6 +102,4 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
     );
     return Result.withContent(leaderboard);
   }
-
-  /*methods*/
 }

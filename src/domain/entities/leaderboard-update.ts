@@ -9,7 +9,11 @@ import {
   LeaderboardUpdateJson,
 } from '../../data/leaderboard.dtos';
 import { floatToPreciseInt } from '../../leaderboard.utils';
-import { FederationContract, NotifyWorldContract, UsptsWorldsContract } from '@alien-worlds/alienworlds-api-common';
+import {
+  FederationContract,
+  NotifyWorldContract,
+  UsptsWorldsContract,
+} from '@alien-worlds/alienworlds-api-common';
 
 /**
  * @class
@@ -26,6 +30,10 @@ export class LeaderboardUpdate {
       block_number,
       block_timestamp,
       points,
+      ease,
+      luck,
+      difficulty,
+      delay,
       land_id,
       planet_name,
       bag_items,
@@ -39,6 +47,10 @@ export class LeaderboardUpdate {
       username,
       bounty,
       points,
+      ease,
+      luck,
+      difficulty,
+      delay,
       land_id ? parseToBigInt(land_id) : null,
       planet_name,
       bag_items ? bag_items.map(parseToBigInt) : null,
@@ -53,8 +65,8 @@ export class LeaderboardUpdate {
     json: NotifyWorldContract.Actions.Types.LogmineStruct,
     decimalPrecision = 4
   ): LeaderboardUpdate {
-    const { miner, land_id, planet_name, bag_items } = json;
-
+    const { miner, land_id, planet_name, bag_items, params } = json;
+    const { ease, luck, difficulty, delay } = params;
     const bounty = json.bounty
       ? json.bounty.match(/[+-]?\d+(\.\d+)?/g).map(parseFloat)[0]
       : 0;
@@ -66,6 +78,10 @@ export class LeaderboardUpdate {
       '',
       floatToPreciseInt(bounty, decimalPrecision),
       0,
+      ease,
+      luck,
+      difficulty,
+      delay,
       parseToBigInt(land_id),
       planet_name,
       bag_items.map(parseToBigInt),
@@ -87,6 +103,10 @@ export class LeaderboardUpdate {
       '',
       0,
       Number(points),
+      0,
+      0,
+      0,
+      0,
       0n,
       '',
       [],
@@ -107,6 +127,10 @@ export class LeaderboardUpdate {
       tag,
       0,
       0,
+      0,
+      0,
+      0,
+      0,
       0n,
       '',
       [],
@@ -125,6 +149,10 @@ export class LeaderboardUpdate {
       username,
       bounty,
       points,
+      ease,
+      luck,
+      difficulty,
+      delay,
       land_id,
       planet_name,
       bag_items,
@@ -139,6 +167,10 @@ export class LeaderboardUpdate {
       username,
       bounty ? floatToPreciseInt(bounty, decimalPrecision) : 0,
       Number(points),
+      ease,
+      luck,
+      difficulty,
+      delay,
       land_id ? parseToBigInt(land_id) : null,
       planet_name,
       Array.isArray(bag_items) ? bag_items.map(parseToBigInt) : [],
@@ -157,6 +189,10 @@ export class LeaderboardUpdate {
     public readonly username: string,
     public readonly bounty: number,
     public readonly points: number,
+    public readonly ease: number,
+    public readonly luck: number,
+    public readonly delay: number,
+    public readonly difficulty: number,
     public readonly landId: bigint,
     public readonly planetName: string,
     public readonly bagItems: bigint[],
@@ -177,6 +213,10 @@ export class LeaderboardUpdate {
       blockNumber,
       blockTimestamp,
       points,
+      ease,
+      luck,
+      difficulty,
+      delay,
       landId,
       planetName,
       bagItems: bag_items,
@@ -190,6 +230,10 @@ export class LeaderboardUpdate {
       wallet_id: walletId,
       bounty,
       points,
+      ease,
+      luck,
+      difficulty,
+      delay,
       planet_name: planetName,
       update_id,
     };
@@ -218,6 +262,10 @@ export class LeaderboardUpdate {
       blockNumber,
       blockTimestamp,
       points,
+      ease,
+      luck,
+      difficulty,
+      delay,
       landId,
       planetName,
       bagItems: bag_items,
@@ -231,6 +279,10 @@ export class LeaderboardUpdate {
       wallet_id: walletId,
       bounty,
       points,
+      ease,
+      luck,
+      difficulty,
+      delay,
       planet_name: planetName,
       update_id,
     };
