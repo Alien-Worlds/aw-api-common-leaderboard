@@ -11,6 +11,7 @@ export enum LeaderboardSort {
   AvgChargeTime = 'avg_charge_time',
   AvgMiningPower = 'avg_mining_power',
   AvgNftPower = 'avg_nft_power',
+  AvgToolPower = 'avg_tool_power',
   LandsMinedOn = 'lands_mined_on',
   PlanetsMinedOn = 'planets_mined_on',
   UniqueToolsUsed = 'unique_tools_used',
