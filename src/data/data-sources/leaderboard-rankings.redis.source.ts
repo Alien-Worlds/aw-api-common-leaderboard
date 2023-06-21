@@ -23,53 +23,81 @@ export class LeaderboardRankingsRedisSource {
   constructor(redisSource: RedisSource, private prefix: string) {
     this.collections.set(
       LeaderboardSort.TlmGainsTotal,
-      new SortedCollectionRedisSource(redisSource, `${prefix}_tlm_gains_total`)
+      new SortedCollectionRedisSource(
+        redisSource,
+        `${prefix}_${LeaderboardSort.TlmGainsTotal}`
+      )
     );
 
     this.collections.set(
       LeaderboardSort.TotalNftPoints,
-      new SortedCollectionRedisSource(redisSource, `${prefix}_total_nft_points`)
+      new SortedCollectionRedisSource(
+        redisSource,
+        `${prefix}_${LeaderboardSort.TotalNftPoints}`
+      )
     );
     this.collections.set(
       LeaderboardSort.UniqueToolsUsed,
       new SortedCollectionRedisSource(
         redisSource,
-        `${prefix}_unique_tools_used`
+        `${prefix}_${LeaderboardSort.UniqueToolsUsed}`
+      )
+    );
+    this.collections.set(
+      LeaderboardSort.AvgToolChargeTime,
+      new SortedCollectionRedisSource(
+        redisSource,
+        `${prefix}_${LeaderboardSort.AvgToolChargeTime}`
       )
     );
     this.collections.set(
       LeaderboardSort.AvgChargeTime,
-      new SortedCollectionRedisSource(redisSource, `${prefix}_avg_charge_time`)
+      new SortedCollectionRedisSource(
+        redisSource,
+        `${prefix}_${LeaderboardSort.AvgChargeTime}`
+      )
     );
     this.collections.set(
       LeaderboardSort.AvgMiningPower,
-      new SortedCollectionRedisSource(redisSource, `${prefix}_avg_mining_power`)
+      new SortedCollectionRedisSource(
+        redisSource,
+        `${prefix}_${LeaderboardSort.AvgMiningPower}`
+      )
     );
     this.collections.set(
       LeaderboardSort.AvgNftPower,
-      new SortedCollectionRedisSource(redisSource, `${prefix}_avg_nft_power`)
+      new SortedCollectionRedisSource(
+        redisSource,
+        `${prefix}_${LeaderboardSort.AvgNftPower}`
+      )
     );
     this.collections.set(
       LeaderboardSort.AvgToolMiningPower,
       new SortedCollectionRedisSource(
         redisSource,
-        `${prefix}_avg_tool_mining_power`
+        `${prefix}_${LeaderboardSort.AvgToolMiningPower}`
       )
     );
     this.collections.set(
       LeaderboardSort.AvgToolNftPower,
       new SortedCollectionRedisSource(
         redisSource,
-        `${prefix}_avg_tool_nft_power`
+        `${prefix}_${LeaderboardSort.AvgToolNftPower}`
       )
     );
     this.collections.set(
       LeaderboardSort.LandsMinedOn,
-      new SortedCollectionRedisSource(redisSource, `${prefix}_lands_mined_on`)
+      new SortedCollectionRedisSource(
+        redisSource,
+        `${prefix}_${LeaderboardSort.LandsMinedOn}`
+      )
     );
     this.collections.set(
       LeaderboardSort.PlanetsMinedOn,
-      new SortedCollectionRedisSource(redisSource, `${prefix}_planets_mined_on`)
+      new SortedCollectionRedisSource(
+        redisSource,
+        `${prefix}_${LeaderboardSort.PlanetsMinedOn}`
+      )
     );
   }
 
@@ -77,6 +105,7 @@ export class LeaderboardRankingsRedisSource {
     const tlmGainsTotal = [];
     const totalNftPoints = [];
     const uniqueToolsUsed = [];
+    const avgToolChargeTime = [];
     const avgChargeTime = [];
     const avgMiningPower = [];
     const avgNftPower = [];
@@ -90,6 +119,7 @@ export class LeaderboardRankingsRedisSource {
         wallet_id,
         tlm_gains_total,
         total_nft_points,
+        avg_tool_charge_time,
         avg_charge_time,
         avg_mining_power,
         avg_nft_power,
@@ -102,6 +132,7 @@ export class LeaderboardRankingsRedisSource {
       tlmGainsTotal.push({ score: tlm_gains_total, value: wallet_id });
       totalNftPoints.push({ score: total_nft_points, value: wallet_id });
       uniqueToolsUsed.push({ score: unique_tools_used, value: wallet_id });
+      avgToolChargeTime.push({ score: avg_tool_charge_time, value: wallet_id });
       avgChargeTime.push({ score: avg_charge_time, value: wallet_id });
       avgMiningPower.push({ score: avg_mining_power, value: wallet_id });
       avgNftPower.push({ score: avg_nft_power, value: wallet_id });
@@ -121,6 +152,7 @@ export class LeaderboardRankingsRedisSource {
     this.collections
       .get(LeaderboardSort.UniqueToolsUsed)
       .addMany(uniqueToolsUsed);
+    this.collections.get(LeaderboardSort.AvgToolChargeTime).addMany(avgToolChargeTime);
     this.collections.get(LeaderboardSort.AvgChargeTime).addMany(avgChargeTime);
     this.collections
       .get(LeaderboardSort.AvgMiningPower)
