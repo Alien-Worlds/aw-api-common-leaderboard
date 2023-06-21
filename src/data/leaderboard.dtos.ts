@@ -42,6 +42,7 @@ export type LeaderboardNumbers = {
   tlm_gains_total?: number;
   total_nft_points?: number;
   unique_tools_used?: number;
+  avg_tool_charge_time?: number;
   avg_charge_time?: number;
   avg_mining_power?: number;
   avg_nft_power?: number;
@@ -61,6 +62,7 @@ export type LeaderboardDocument = LeaderboardNumbers & {
   username?: string;
   tlm_gains_highest?: number;
   tools_used?: MongoDB.Long[];
+  total_tool_charge_time?: number;
   total_charge_time?: number;
   total_mining_power?: number;
   total_nft_power?: number;
@@ -92,6 +94,7 @@ export type LeaderboardJson = LeaderboardNumbers & {
   username?: string;
   tlm_gains_highest?: number;
   tools_used?: string[];
+  total_tool_charge_time?: number;
   total_charge_time?: number;
   total_mining_power?: number;
   total_nft_power?: number;

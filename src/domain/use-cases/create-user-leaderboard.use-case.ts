@@ -30,9 +30,12 @@ export class CreateUserLeaderboardUseCase implements UseCase<Leaderboard> {
       bagItems,
       luck,
       ease,
+      delay,
     } = update;
     const toolsUsed = [];
-    let totalChargeTime = 0;
+
+    let totalToolChargeTime = 0;
+    let avgToolChargeTime = 0;
     let totalToolMiningPower = 0;
     let totalToolNftPower = 0;
     let avgNftPower = 0;
@@ -46,7 +49,7 @@ export class CreateUserLeaderboardUseCase implements UseCase<Leaderboard> {
 
       if (bagItems.includes(assetId)) {
         toolsUsed.push(assetId);
-        totalChargeTime += data.delay || 0;
+        totalToolChargeTime += data.delay || 0;
         totalToolMiningPower += data.ease || 0;
         totalToolNftPower += data.luck || 0;
       }
@@ -55,8 +58,10 @@ export class CreateUserLeaderboardUseCase implements UseCase<Leaderboard> {
     const toolsCount = toolsUsed.length;
     const totalMiningPower = ease;
     const totalNftPower = luck;
-    
+    const totalChargeTime = delay;
+
     if (toolsCount > 0) {
+      avgToolChargeTime = totalToolChargeTime / toolsCount;
       avgChargeTime = totalChargeTime / toolsCount;
       avgMiningPower = totalMiningPower / toolsCount;
       avgNftPower = totalNftPower / toolsCount;
@@ -72,6 +77,8 @@ export class CreateUserLeaderboardUseCase implements UseCase<Leaderboard> {
       bounty,
       bounty,
       points,
+      totalToolChargeTime,
+      avgToolChargeTime,
       totalChargeTime,
       avgChargeTime,
       totalMiningPower,

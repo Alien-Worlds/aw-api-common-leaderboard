@@ -8,6 +8,7 @@ export enum LeaderboardTimeframe {
 export enum LeaderboardSort {
   TlmGainsTotal = 'tlm_gains_total',
   TotalNftPoints = 'total_nft_points',
+  AvgToolChargeTime = 'avg_tool_charge_time',
   AvgChargeTime = 'avg_charge_time',
   AvgMiningPower = 'avg_mining_power',
   AvgNftPower = 'avg_nft_power',

@@ -24,10 +24,12 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
     const bounty = update.bounty || 0;
     const ease = update.ease || 0;
     const luck = update.luck || 0;
+    const delay = update.delay || 0;
 
     const toolsUsed: bigint[] = current.toolsUsed || [];
     const lands = current.lands;
     const planets = current.planets;
+    let totalToolChargeTime = current.totalToolChargeTime;
     let totalChargeTime = current.totalChargeTime;
     let totalMiningPower = current.totalMiningPower;
     let totalNftPower = current.totalNftPower;
@@ -50,16 +52,20 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
         update.bagItems.includes(assetId)
       ) {
         toolsUsed.push(assetId);
-        totalChargeTime += data.delay;
+        totalToolChargeTime += data.delay;
         totalToolMiningPower += data.ease;
         totalToolNftPower += data.luck;
       }
     });
 
+    totalChargeTime += delay;
     totalMiningPower += ease;
     totalNftPower += luck;
 
     const toolsCount = toolsUsed.length;
+    const avgToolChargeTime = toolsCount
+      ? totalToolChargeTime / toolsCount
+      : current.avgToolChargeTime;
     const avgChargeTime = toolsCount
       ? totalChargeTime / toolsCount
       : current.avgChargeTime;
@@ -84,6 +90,8 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
       current.tlmGainsTotal + bounty,
       current.tlmGainsHighest < bounty ? bounty : current.tlmGainsHighest,
       current.totalNftPoints + points,
+      totalToolChargeTime,
+      avgToolChargeTime,
       totalChargeTime,
       avgChargeTime,
       totalMiningPower,
