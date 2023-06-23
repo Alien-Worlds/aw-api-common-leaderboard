@@ -1,8 +1,9 @@
-import { injectable, Result, UseCase } from '@alien-worlds/api-core';
+import { Result, UseCase, injectable } from '@alien-worlds/api-core';
+
 import { AtomicAsset } from '@alien-worlds/atomicassets-api-common';
-import { MinigToolData } from '../../data/leaderboard.dtos';
 import { Leaderboard } from '../entities/leaderboard';
 import { LeaderboardUpdate } from '../entities/leaderboard-update';
+import { MinigToolData } from '../../data/leaderboard.dtos';
 import { nanoid } from 'nanoid';
 
 /**
@@ -63,24 +64,36 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
     totalNftPower += luck;
 
     const toolsCount = toolsUsed.length;
-    const avgToolChargeTime = toolsCount
-      ? totalToolChargeTime / toolsCount
-      : current.avgToolChargeTime;
-    const avgChargeTime = toolsCount
-      ? totalChargeTime / toolsCount
-      : current.avgChargeTime;
-    const avgMiningPower = toolsCount
-      ? totalMiningPower / toolsCount
-      : current.avgMiningPower;
-    const avgNftPower = toolsCount
-      ? totalNftPower / toolsCount
-      : current.avgNftPower;
-    const avgToolMiningPower = toolsCount
-      ? totalToolMiningPower / toolsCount
-      : current.avgToolMiningPower;
-    const avgToolNftPower = toolsCount
-      ? totalToolNftPower / toolsCount
-      : current.avgToolNftPower;
+
+    const avgToolChargeTime =
+      toolsCount && totalToolChargeTime
+        ? totalToolChargeTime / toolsCount
+        : current.avgToolChargeTime ?? 0;
+
+    const avgChargeTime =
+      toolsCount && totalChargeTime
+        ? totalChargeTime / toolsCount
+        : current.avgChargeTime ?? 0;
+
+    const avgMiningPower =
+      toolsCount && totalMiningPower
+        ? totalMiningPower / toolsCount
+        : current.avgMiningPower ?? 0;
+
+    const avgNftPower =
+      toolsCount && totalNftPower
+        ? totalNftPower / toolsCount
+        : current.avgNftPower ?? 0;
+
+    const avgToolMiningPower =
+      toolsCount && totalToolMiningPower
+        ? totalToolMiningPower / toolsCount
+        : current.avgToolMiningPower ?? 0;
+
+    const avgToolNftPower =
+      toolsCount && totalToolNftPower
+        ? totalToolNftPower / toolsCount
+        : current.avgToolNftPower ?? 0;
 
     const leaderboard = Leaderboard.create(
       update.blockNumber,
