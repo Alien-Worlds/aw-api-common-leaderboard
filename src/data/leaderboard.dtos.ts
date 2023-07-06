@@ -1,6 +1,7 @@
 import { MongoDB } from '@alien-worlds/api-core';
 
 export type LeaderboardUpdateDocument = {
+  action_count?: number;
   wallet_id: string;
   block_number: MongoDB.Long;
   block_timestamp: Date;
@@ -20,6 +21,7 @@ export type LeaderboardUpdateDocument = {
 };
 
 export type LeaderboardUpdateJson = {
+  action_count?: number;
   wallet_id?: string;
   block_number?: string;
   block_timestamp?: string;
@@ -53,6 +55,7 @@ export type LeaderboardNumbers = {
 };
 
 export type LeaderboardDocument = LeaderboardNumbers & {
+  action_count?: number;
   _id?: MongoDB.ObjectId;
   last_block_number?: MongoDB.Long;
   last_block_timestamp?: Date;
@@ -85,6 +88,7 @@ export type MinigToolData = {
 };
 
 export type LeaderboardJson = LeaderboardNumbers & {
+  action_count?: number;
   last_block_number?: string;
   last_block_timestamp?: string;
   last_update_timestamp?: string;

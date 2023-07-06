@@ -30,12 +30,17 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
     const toolsUsed: bigint[] = current.toolsUsed || [];
     const lands = current.lands;
     const planets = current.planets;
+    let actionCount = current.actionCount;
     let totalToolChargeTime = current.totalToolChargeTime;
     let totalChargeTime = current.totalChargeTime;
     let totalMiningPower = current.totalMiningPower;
     let totalNftPower = current.totalNftPower;
     let totalToolMiningPower = current.totalToolMiningPower;
     let totalToolNftPower = current.totalToolNftPower;
+
+    if (update.actionCount > 0) {
+      actionCount += update.actionCount;
+    }
 
     if (update.planetName && planets.indexOf(update.planetName) === -1) {
       planets.push(update.planetName);
@@ -71,18 +76,18 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
         : current.avgToolChargeTime ?? 0;
 
     const avgChargeTime =
-      toolsCount && totalChargeTime
-        ? totalChargeTime / toolsCount
+      actionCount && totalChargeTime
+        ? totalChargeTime / actionCount
         : current.avgChargeTime ?? 0;
 
     const avgMiningPower =
-      toolsCount && totalMiningPower
-        ? totalMiningPower / toolsCount
+      actionCount && totalMiningPower
+        ? totalMiningPower / actionCount
         : current.avgMiningPower ?? 0;
 
     const avgNftPower =
-      toolsCount && totalNftPower
-        ? totalNftPower / toolsCount
+      actionCount && totalNftPower
+        ? totalNftPower / actionCount
         : current.avgNftPower ?? 0;
 
     const avgToolMiningPower =
@@ -96,6 +101,7 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
         : current.avgToolNftPower ?? 0;
 
     const leaderboard = Leaderboard.create(
+      actionCount,
       update.blockNumber,
       update.blockTimestamp,
       update.walletId,

@@ -25,6 +25,7 @@ export class Leaderboard {
   public static fromDocument(document: LeaderboardDocument): Leaderboard {
     const {
       _id,
+      action_count,
       last_update_timestamp,
       last_update_id,
       last_block_number,
@@ -62,6 +63,7 @@ export class Leaderboard {
     }
 
     return new Leaderboard(
+      action_count,
       parseToBigInt(last_block_number),
       last_block_timestamp,
       wallet_id,
@@ -93,6 +95,7 @@ export class Leaderboard {
 
   public static fromJson(json: LeaderboardJson): Leaderboard {
     const {
+      action_count,
       last_update_timestamp,
       last_update_id,
       last_block_number,
@@ -130,6 +133,7 @@ export class Leaderboard {
     }
 
     return new Leaderboard(
+      action_count,
       parseToBigInt(last_block_number),
       new Date(last_block_timestamp),
       wallet_id,
@@ -160,6 +164,7 @@ export class Leaderboard {
   }
 
   public static create(
+    actionCount: number,
     blockNumber: bigint,
     blockTimestamp: Date,
     walletId: string,
@@ -234,6 +239,7 @@ export class Leaderboard {
     );
 
     return new Leaderboard(
+      actionCount,
       blockNumber,
       blockTimestamp,
       walletId,
@@ -267,6 +273,7 @@ export class Leaderboard {
    * @constructor
    */
   protected constructor(
+    public readonly actionCount: number,
     public readonly lastBlockNumber: bigint,
     public readonly lastBlockTimestamp: Date,
     public readonly walletId: string,
@@ -312,6 +319,7 @@ export class Leaderboard {
   public toDocument(): LeaderboardDocument {
     const {
       id,
+      actionCount: action_count,
       lastUpdateTimestamp: last_update_timestamp,
       lastUpdateId: last_update_id,
       username,
@@ -343,6 +351,7 @@ export class Leaderboard {
     } = this;
 
     const document: LeaderboardDocument = {
+      action_count,
       last_update_timestamp,
       last_update_id,
       wallet_id,
@@ -394,6 +403,7 @@ export class Leaderboard {
 
   public toJson(): LeaderboardJson {
     const {
+      actionCount: action_count,
       lastUpdateTimestamp,
       lastBlockNumber,
       lastBlockTimestamp,
@@ -424,6 +434,7 @@ export class Leaderboard {
     } = this;
 
     const struct: LeaderboardJson = {
+      action_count,
       last_update_timestamp: lastUpdateTimestamp.toISOString(),
       last_update_id,
       username,

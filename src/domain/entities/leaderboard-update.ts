@@ -24,6 +24,7 @@ export class LeaderboardUpdate {
   ): LeaderboardUpdate {
     const {
       _id,
+      action_count,
       wallet_id,
       username,
       bounty,
@@ -55,7 +56,8 @@ export class LeaderboardUpdate {
       planet_name,
       bag_items ? bag_items.map(parseToBigInt) : null,
       update_id,
-      _id instanceof MongoDB.ObjectId ? _id.toString() : null
+      _id instanceof MongoDB.ObjectId ? _id.toString() : null,
+      action_count
     );
   }
 
@@ -85,7 +87,9 @@ export class LeaderboardUpdate {
       parseToBigInt(land_id),
       planet_name,
       bag_items.map(parseToBigInt),
-      nanoid()
+      nanoid(),
+      '',
+      1
     );
   }
 
@@ -143,6 +147,7 @@ export class LeaderboardUpdate {
     decimalPrecision = 4
   ): LeaderboardUpdate {
     const {
+      action_count,
       wallet_id,
       block_number,
       block_timestamp,
@@ -175,7 +180,8 @@ export class LeaderboardUpdate {
       planet_name,
       Array.isArray(bag_items) ? bag_items.map(parseToBigInt) : [],
       update_id || nanoid(),
-      id
+      id,
+      action_count
     );
   }
 
@@ -197,7 +203,8 @@ export class LeaderboardUpdate {
     public readonly planetName: string,
     public readonly bagItems: bigint[],
     public readonly updateId: string,
-    public readonly id?: string
+    public readonly id?: string,
+    public readonly actionCount?: number
   ) {}
 
   /**
@@ -207,6 +214,7 @@ export class LeaderboardUpdate {
   public toDocument(): LeaderboardUpdateDocument {
     const {
       id,
+      actionCount: action_count,
       walletId,
       username,
       bounty,
@@ -236,6 +244,7 @@ export class LeaderboardUpdate {
       delay,
       planet_name: planetName,
       update_id,
+      action_count: action_count || 0,
     };
 
     if (landId) {
@@ -255,6 +264,7 @@ export class LeaderboardUpdate {
 
   public toJson(): LeaderboardUpdateJson {
     const {
+      actionCount: action_count,
       id,
       walletId,
       username,
@@ -285,6 +295,7 @@ export class LeaderboardUpdate {
       delay,
       planet_name: planetName,
       update_id,
+      action_count: action_count || 0,
     };
 
     if (landId) {
