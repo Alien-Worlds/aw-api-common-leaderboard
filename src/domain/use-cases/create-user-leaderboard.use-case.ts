@@ -31,7 +31,7 @@ export class CreateUserLeaderboardUseCase implements UseCase<Leaderboard> {
       luck,
       ease,
       delay,
-      actionCount,
+      miningCounter,
     } = update;
     const toolsUsed = [];
 
@@ -65,13 +65,13 @@ export class CreateUserLeaderboardUseCase implements UseCase<Leaderboard> {
       avgChargeTime = totalChargeTime;
       avgMiningPower = totalMiningPower;
       avgNftPower = totalNftPower;
-      avgToolChargeTime = totalToolChargeTime / toolsCount;
-      avgToolMiningPower = totalToolMiningPower / toolsCount;
-      avgToolNftPower = totalToolNftPower / toolsCount;
+      avgToolChargeTime = totalToolChargeTime;
+      avgToolMiningPower = totalToolMiningPower;
+      avgToolNftPower = totalToolNftPower;
     }
 
     const leaderboard = Leaderboard.create(
-      actionCount,
+      miningCounter,
       blockNumber,
       blockTimestamp,
       walletId,

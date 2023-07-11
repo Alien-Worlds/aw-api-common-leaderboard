@@ -24,7 +24,7 @@ export class LeaderboardUpdate {
   ): LeaderboardUpdate {
     const {
       _id,
-      action_count,
+      mining_counter,
       wallet_id,
       username,
       bounty,
@@ -57,7 +57,7 @@ export class LeaderboardUpdate {
       bag_items ? bag_items.map(parseToBigInt) : null,
       update_id,
       _id instanceof MongoDB.ObjectId ? _id.toString() : null,
-      action_count
+      mining_counter
     );
   }
 
@@ -93,61 +93,12 @@ export class LeaderboardUpdate {
     );
   }
 
-  public static fromAddPointsJson(
-    blockNumber: string | number | bigint,
-    blockTimestamp: Date,
-    json: UsptsWorldsContract.Actions.Types.AddpointsStruct
-  ): LeaderboardUpdate {
-    const { user, points } = json;
-
-    return new LeaderboardUpdate(
-      parseToBigInt(blockNumber),
-      blockTimestamp,
-      user,
-      '',
-      0,
-      Number(points),
-      0,
-      0,
-      0,
-      0,
-      0n,
-      '',
-      [],
-      nanoid()
-    );
-  }
-
-  public static fromSetTagJson(
-    blockNumber: string | number | bigint,
-    blockTimestamp: Date,
-    json: FederationContract.Actions.Types.SettagStruct
-  ): LeaderboardUpdate {
-    const { tag, account } = json;
-    return new LeaderboardUpdate(
-      parseToBigInt(blockNumber),
-      blockTimestamp,
-      account,
-      tag,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0n,
-      '',
-      [],
-      nanoid()
-    );
-  }
-
   public static fromJson(
     json: LeaderboardUpdateJson,
     decimalPrecision = 4
   ): LeaderboardUpdate {
     const {
-      action_count,
+      mining_counter,
       wallet_id,
       block_number,
       block_timestamp,
@@ -181,7 +132,7 @@ export class LeaderboardUpdate {
       Array.isArray(bag_items) ? bag_items.map(parseToBigInt) : [],
       update_id || nanoid(),
       id,
-      action_count
+      mining_counter
     );
   }
 
@@ -204,7 +155,7 @@ export class LeaderboardUpdate {
     public readonly bagItems: bigint[],
     public readonly updateId: string,
     public readonly id?: string,
-    public readonly actionCount?: number
+    public readonly miningCounter?: number
   ) {}
 
   /**
@@ -214,7 +165,7 @@ export class LeaderboardUpdate {
   public toDocument(): LeaderboardUpdateDocument {
     const {
       id,
-      actionCount: action_count,
+      miningCounter: mining_counter,
       walletId,
       username,
       bounty,
@@ -244,7 +195,7 @@ export class LeaderboardUpdate {
       delay,
       planet_name: planetName,
       update_id,
-      action_count: action_count || 0,
+      mining_counter: mining_counter || 0,
     };
 
     if (landId) {
@@ -264,7 +215,7 @@ export class LeaderboardUpdate {
 
   public toJson(): LeaderboardUpdateJson {
     const {
-      actionCount: action_count,
+      miningCounter: mining_counter,
       id,
       walletId,
       username,
@@ -295,7 +246,7 @@ export class LeaderboardUpdate {
       delay,
       planet_name: planetName,
       update_id,
-      action_count: action_count || 0,
+      mining_counter: mining_counter || 0,
     };
 
     if (landId) {

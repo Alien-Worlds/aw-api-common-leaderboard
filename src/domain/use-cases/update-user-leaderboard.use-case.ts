@@ -30,7 +30,7 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
     const toolsUsed: bigint[] = current.toolsUsed || [];
     const lands = current.lands;
     const planets = current.planets;
-    let actionCount = current.actionCount;
+    let miningCounter = current.miningCounter;
     let totalToolChargeTime = current.totalToolChargeTime;
     let totalChargeTime = current.totalChargeTime;
     let totalMiningPower = current.totalMiningPower;
@@ -38,8 +38,8 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
     let totalToolMiningPower = current.totalToolMiningPower;
     let totalToolNftPower = current.totalToolNftPower;
 
-    if (update.actionCount > 0) {
-      actionCount += update.actionCount;
+    if (update.miningCounter > 0) {
+      miningCounter += update.miningCounter;
     }
 
     if (update.planetName && planets.indexOf(update.planetName) === -1) {
@@ -71,37 +71,37 @@ export class UpdateUserLeaderboardUseCase implements UseCase<Leaderboard> {
     const toolsCount = toolsUsed.length;
 
     const avgToolChargeTime =
-      toolsCount && totalToolChargeTime
-        ? totalToolChargeTime / toolsCount
+      toolsCount && miningCounter && totalToolChargeTime
+        ? totalToolChargeTime / miningCounter
         : current.avgToolChargeTime ?? 0;
 
     const avgChargeTime =
-      actionCount && totalChargeTime
-        ? totalChargeTime / actionCount
+      miningCounter && totalChargeTime
+        ? totalChargeTime / miningCounter
         : current.avgChargeTime ?? 0;
 
     const avgMiningPower =
-      actionCount && totalMiningPower
-        ? totalMiningPower / actionCount
+      miningCounter && totalMiningPower
+        ? totalMiningPower / miningCounter
         : current.avgMiningPower ?? 0;
 
     const avgNftPower =
-      actionCount && totalNftPower
-        ? totalNftPower / actionCount
+      miningCounter && totalNftPower
+        ? totalNftPower / miningCounter
         : current.avgNftPower ?? 0;
 
     const avgToolMiningPower =
-      toolsCount && totalToolMiningPower
-        ? totalToolMiningPower / toolsCount
+      toolsCount && miningCounter && totalToolMiningPower
+        ? totalToolMiningPower / miningCounter
         : current.avgToolMiningPower ?? 0;
 
     const avgToolNftPower =
-      toolsCount && totalToolNftPower
-        ? totalToolNftPower / toolsCount
+      toolsCount && miningCounter && totalToolNftPower
+        ? totalToolNftPower / miningCounter
         : current.avgToolNftPower ?? 0;
 
     const leaderboard = Leaderboard.create(
-      actionCount,
+      miningCounter,
       update.blockNumber,
       update.blockTimestamp,
       update.walletId,
