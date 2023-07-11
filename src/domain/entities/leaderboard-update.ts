@@ -9,11 +9,7 @@ import {
   LeaderboardUpdateJson,
 } from '../../data/leaderboard.dtos';
 import { floatToPreciseInt } from '../../leaderboard.utils';
-import {
-  FederationContract,
-  NotifyWorldContract,
-  UsptsWorldsContract,
-} from '@alien-worlds/alienworlds-api-common';
+import { NotifyWorldContract } from '@alien-worlds/alienworlds-api-common';
 
 /**
  * @class
@@ -69,6 +65,7 @@ export class LeaderboardUpdate {
   ): LeaderboardUpdate {
     const { miner, land_id, planet_name, bag_items, params } = json;
     const { ease, luck, difficulty, delay } = params;
+    const points = luck;
     const bounty = json.bounty
       ? json.bounty.match(/[+-]?\d+(\.\d+)?/g).map(parseFloat)[0]
       : 0;
@@ -79,7 +76,7 @@ export class LeaderboardUpdate {
       miner,
       '',
       floatToPreciseInt(bounty, decimalPrecision),
-      0,
+      points,
       ease,
       luck,
       difficulty,
