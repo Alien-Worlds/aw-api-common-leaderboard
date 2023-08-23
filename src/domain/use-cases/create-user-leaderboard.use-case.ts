@@ -1,5 +1,6 @@
-import { injectable, Result, UseCase } from '@alien-worlds/api-core';
 import { AtomicAsset } from '@alien-worlds/atomicassets-api-common';
+import { injectable, Result, UseCase } from '@alien-worlds/aw-core';
+
 import { MinigToolData } from '../../data/leaderboard.dtos';
 import { Leaderboard } from '../entities/leaderboard';
 import { LeaderboardUpdate } from '../entities/leaderboard-update';

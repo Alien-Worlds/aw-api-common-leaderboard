@@ -1,15 +1,18 @@
-import { Container, MongoSource, RedisSource } from '@alien-worlds/api-core';
-import { LeaderboardRepositoryImpl } from './data/repositories/leaderboard.repository-impl';
-import { LeaderboardRankingsRedisSource } from './data/data-sources/leaderboard-rankings.redis.source';
+import { Container } from '@alien-worlds/aw-core';
+import { MongoSource } from '@alien-worlds/aw-storage-mongodb';
+import { RedisSource } from '@alien-worlds/aw-storage-redis';
+
 import { LeaderboardArchiveMongoSource } from './data/data-sources/leaderboard-archive.mongo.source';
+import { LeaderboardRankingsRedisSource } from './data/data-sources/leaderboard-rankings.redis.source';
+import { LeaderboardSnapshotMongoSource } from './data/data-sources/leaderboard-snapshot.mongo.source';
+import { LeaderboardRepositoryImpl } from './data/repositories/leaderboard.repository-impl';
 import { DailyLeaderboardRepository } from './domain/repositories/daily-leaderboard.repository';
-import { WeeklyLeaderboardRepository } from './domain/repositories/weekly-leaderboard.repository';
 import { MonthlyLeaderboardRepository } from './domain/repositories/monthly-leaderboard.repository';
+import { WeeklyLeaderboardRepository } from './domain/repositories/weekly-leaderboard.repository';
 import { CreateUserLeaderboardUseCase } from './domain/use-cases/create-user-leaderboard.use-case';
 import { UpdateLeaderboardWithinTimeframeUseCase } from './domain/use-cases/update-leaderboard-within-timeframe.use-case';
 import { UpdateLeaderboardUseCase } from './domain/use-cases/update-leaderboard.use-case';
 import { UpdateUserLeaderboardUseCase } from './domain/use-cases/update-user-leaderboard.use-case';
-import { LeaderboardSnapshotMongoSource } from './data/data-sources/leaderboard-snapshot.mongo.source';
 import { LeaderboardConfig } from './leaderboard.types';
 
 export const setupLeaderboard = async (

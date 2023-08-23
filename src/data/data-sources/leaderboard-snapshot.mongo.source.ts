@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { CollectionMongoSource, MongoSource } from '@alien-worlds/api-core';
+import { MongoCollectionSource, MongoSource } from '@alien-worlds/aw-storage-mongodb';
+
 import { LeaderboardDocument } from '../leaderboard.dtos';
 
 /**
  * @class
  */
-export class LeaderboardSnapshotMongoSource extends CollectionMongoSource<LeaderboardDocument> {
+export class LeaderboardSnapshotMongoSource extends MongoCollectionSource<LeaderboardDocument> {
   public static Token = 'LEADERBOARD_SNAPSHOT_MONGO_SOURCE';
 
   /**

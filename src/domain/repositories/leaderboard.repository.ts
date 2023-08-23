@@ -1,4 +1,5 @@
-import { Result, UpdateStatus, injectable } from '@alien-worlds/api-core';
+import { injectable, OperationStatus, Result } from '@alien-worlds/aw-core';
+
 import { Leaderboard } from '../entities/leaderboard';
 
 /**
@@ -27,7 +28,7 @@ export abstract class LeaderboardRepository {
 
   public abstract update(
     leaderboards: Leaderboard[]
-  ): Promise<Result<UpdateStatus.Success | UpdateStatus.Failure>>;
+  ): Promise<Result<OperationStatus.Success | OperationStatus.Failure>>;
 
   public abstract count(
     fromDate?: Date,

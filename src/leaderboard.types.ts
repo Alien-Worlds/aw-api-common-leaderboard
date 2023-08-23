@@ -1,4 +1,5 @@
-import { MongoConfig, RedisConfig } from '@alien-worlds/api-core';
+import { MongoConfig } from '@alien-worlds/aw-storage-mongodb';
+import { RedisConfig } from '@alien-worlds/aw-storage-redis';
 
 export type LeaderboardConfig = {
   mongo: MongoConfig;

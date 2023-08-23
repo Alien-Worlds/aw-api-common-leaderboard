@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { CollectionMongoSource, MongoSource } from '@alien-worlds/api-core';
+import { MongoCollectionSource, MongoSource } from '@alien-worlds/aw-storage-mongodb';
+
 import { LeaderboardDocument } from '../leaderboard.dtos';
 
 /**
  * @class
  */
-export class LeaderboardArchiveMongoSource extends CollectionMongoSource<LeaderboardDocument> {
+export class LeaderboardArchiveMongoSource extends MongoCollectionSource<LeaderboardDocument> {
   public static Token = 'LEADERBOARD_ARCHIVE_MONGO_SOURCE';
 
   /**
@@ -76,16 +77,16 @@ export class LeaderboardArchiveMongoSource extends CollectionMongoSource<Leaderb
     const match =
       fromDate && toDate
         ? {
-            $and: [
-              { $or: [{ wallet_id: user }, { username: user }] },
-              {
-                last_block_timestamp: {
-                  $gte: new Date(fromDate.toISOString()),
-                  $lt: new Date(toDate.toISOString()),
-                },
+          $and: [
+            { $or: [{ wallet_id: user }, { username: user }] },
+            {
+              last_block_timestamp: {
+                $gte: new Date(fromDate.toISOString()),
+                $lt: new Date(toDate.toISOString()),
               },
-            ],
-          }
+            },
+          ],
+        }
         : { $or: [{ wallet_id: user }, { username: user }] };
 
     const pipeline = [

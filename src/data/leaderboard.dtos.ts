@@ -1,4 +1,4 @@
-import { MongoDB } from '@alien-worlds/api-core';
+import { MongoDB } from '@alien-worlds/aw-storage-mongodb';
 
 export type LeaderboardUpdateDocument = {
   mining_counter?: number;
