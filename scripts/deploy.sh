@@ -36,4 +36,4 @@ npm version $TYPE || error_exit "Failed to set a new version of the package"
 git push origin || error_exit "Failed to submit changes to the repository"
 
 # publish package
-npm publish || error_exit "Failed to publish a new version"
+npm publish --access public || error_exit "Failed to publish a new version"
