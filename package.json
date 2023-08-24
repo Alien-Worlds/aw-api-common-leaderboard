@@ -1,5 +1,5 @@
 {
-  "name": "@alien-worlds/leaderboard-api-common",
+  "name": "@alien-worlds/aw-api-common-leaderboard",
   "version": "0.0.12",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:Alien-Worlds/leaderboard-api-common.git"
+    "url": "git@github.com:Alien-Worlds/aw-api-common-leaderboard.git"
   },
   "author": "rkamysz <radoslaw.kamysz@gmail.com>",
   "license": "ISC",
