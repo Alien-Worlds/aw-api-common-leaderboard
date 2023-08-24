@@ -35,7 +35,7 @@
     "@alien-worlds/alienworlds-api-common": "^0.0.82",
     "@alien-worlds/atomicassets-api-common": "^0.0.2",
     "@alien-worlds/aw-core": "^0.0.17",
-    "@alien-worlds/aw-storage-mongodb": "^0.0.10",
+    "@alien-worlds/aw-storage-mongodb": "^0.0.11",
     "@alien-worlds/aw-storage-redis": "^0.0.5",
     "atomicassets": "^1.5.1",
     "crypto": "^1.0.1",

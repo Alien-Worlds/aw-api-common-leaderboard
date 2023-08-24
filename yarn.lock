@@ -46,15 +46,6 @@
     crypto "^1.0.1"
     eosjs "^22.1.0"
 
-"@alien-worlds/aw-core@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-core/-/aw-core-0.0.15.tgz#1dca120a8b17577be4f71b0cc83850893ba9caa4"
-  integrity sha512-8Q9gvAZTIBYdBvZJvEvK9D6gKzOhITkgS8Vlc6x4BrFNeLVTs8JJaV4S7ALbaKu5jy1udai1ehhJ5FZEn2OYpw==
-  dependencies:
-    inversify "^6.0.1"
-    node-fetch "2.6.6"
-    reflect-metadata "^0.1.13"
-
 "@alien-worlds/aw-core@^0.0.17":
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/@alien-worlds/aw-core/-/aw-core-0.0.17.tgz#e6dcb94061f8434720c588aab4002b7cea831acd"
@@ -64,12 +55,12 @@
     node-fetch "2.6.6"
     reflect-metadata "^0.1.13"
 
-"@alien-worlds/aw-storage-mongodb@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-storage-mongodb/-/aw-storage-mongodb-0.0.10.tgz#9e923b768206aa24050fe93f18a4229654dc455e"
-  integrity sha512-BVTOGH4nUhzKzdnk6PeI4wQR2uZgHwUrUUySK8rAaq5DKUcip67lHJaI0rK7xIAujKPPxOKvo68cIXF6/0Z0jA==
+"@alien-worlds/aw-storage-mongodb@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-storage-mongodb/-/aw-storage-mongodb-0.0.11.tgz#96b0171ed8ebfff695c1bd231e2b88fb7a478a98"
+  integrity sha512-AgMyEcRp9uFMW6784jBJhkj2BZGPD6smGAaWYjBuHdmnep9lw6dTrxqFCu/VbJEJU46H+zQaLzhGhWVT3rzRGQ==
   dependencies:
-    "@alien-worlds/aw-core" "^0.0.15"
+    "@alien-worlds/aw-core" "^0.0.17"
     mongodb "4.9.1"
 
 "@alien-worlds/aw-storage-redis@^0.0.5":
