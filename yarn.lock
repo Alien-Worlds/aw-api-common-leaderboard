@@ -46,29 +46,29 @@
     crypto "^1.0.1"
     eosjs "^22.1.0"
 
-"@alien-worlds/aw-core@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-core/-/aw-core-0.0.17.tgz#e6dcb94061f8434720c588aab4002b7cea831acd"
-  integrity sha512-ygraIcALHuZdnFOqKxIECwqSHxt9GHYMz4TU/QiM/fPAslwAnJYXVrQEaiJd65vwt0RDw69Tb5vAcP+34cYrqw==
+"@alien-worlds/aw-core@^0.0.21":
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-core/-/aw-core-0.0.21.tgz#f98d105adae0685a014a831c81eec56f1c691c7b"
+  integrity sha512-WP6ludtofCphRdZkdcke91wZv03BJGMGHWuW5RG7wjHfhc4u5X4bnojkIZ9lA9F5ihpMAzdmieH1xo6n/M3EkQ==
   dependencies:
     inversify "^6.0.1"
     node-fetch "2.6.6"
     reflect-metadata "^0.1.13"
 
-"@alien-worlds/aw-storage-mongodb@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-storage-mongodb/-/aw-storage-mongodb-0.0.11.tgz#96b0171ed8ebfff695c1bd231e2b88fb7a478a98"
-  integrity sha512-AgMyEcRp9uFMW6784jBJhkj2BZGPD6smGAaWYjBuHdmnep9lw6dTrxqFCu/VbJEJU46H+zQaLzhGhWVT3rzRGQ==
+"@alien-worlds/aw-storage-mongodb@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-storage-mongodb/-/aw-storage-mongodb-0.0.16.tgz#5475a041b02517796348256b688319f46ac887cf"
+  integrity sha512-l0eqrtdb9OclW6Y7jSetf2FyfcrPs8deLDHL0AA4vfkfp5CfUlErJXxSoWabLvjjwohcNbQAu6dmw2yQyGrXAw==
   dependencies:
-    "@alien-worlds/aw-core" "^0.0.17"
+    "@alien-worlds/aw-core" "^0.0.21"
     mongodb "4.9.1"
 
-"@alien-worlds/aw-storage-redis@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-storage-redis/-/aw-storage-redis-0.0.5.tgz#1fcf525c53c649c891e8aa333b9e7f762db02204"
-  integrity sha512-C78FsWbMmI6RdZx6yL+/M8V3WYC/rvCMyfcKQU2h7djtTY4PoIfEq2uezJtp0D5MqtK4PmgViXZG2JOFe2Lt9Q==
+"@alien-worlds/aw-storage-redis@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-storage-redis/-/aw-storage-redis-0.0.7.tgz#cddfe3c340683fb0bfe3131a52efeabb7d0cf514"
+  integrity sha512-tCU4Q0bAxaSgYWLrMSJ0gexgTymOQWdq61p3w10kaA9lPZPhYqsUkTOGxZlHupIt39kwRGPD3tjn36E2UodyGQ==
   dependencies:
-    "@alien-worlds/aw-core" "^0.0.17"
+    "@alien-worlds/aw-core" "^0.0.21"
     redis "^4.6.7"
 
 "@ampproject/remapping@^2.1.0":
