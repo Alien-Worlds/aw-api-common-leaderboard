@@ -123,21 +123,23 @@ export class LeaderboardRankingsRedisSource {
         planets_mined_on,
         unique_tools_used,
       } = leaderboard;
-      tlmGainsTotal.push({ score: tlm_gains_total, value: wallet_id });
-      totalNftPoints.push({ score: total_nft_points, value: wallet_id });
-      uniqueToolsUsed.push({ score: unique_tools_used, value: wallet_id });
-      avgToolChargeTime.push({ score: avg_tool_charge_time, value: wallet_id });
-      avgChargeTime.push({ score: avg_charge_time, value: wallet_id });
-      avgMiningPower.push({ score: avg_mining_power, value: wallet_id });
-      avgNftPower.push({ score: avg_nft_power, value: wallet_id });
+      tlmGainsTotal.push({ score: tlm_gains_total, member: wallet_id });
+      totalNftPoints.push({ score: total_nft_points, member: wallet_id });
+      uniqueToolsUsed.push({ score: unique_tools_used, member: wallet_id });
+      avgToolChargeTime.push({ score: avg_tool_charge_time, member: wallet_id });
+      avgChargeTime.push({ score: avg_charge_time, member: wallet_id });
+      avgMiningPower.push({ score: avg_mining_power, member: wallet_id });
+      avgNftPower.push({ score: avg_nft_power, member: wallet_id });
       avgToolMiningPower.push({
         score: avg_tool_mining_power,
-        value: wallet_id,
+        member: wallet_id,
       });
-      avgToolNftPower.push({ score: avg_tool_nft_power, value: wallet_id });
-      landsMinedOn.push({ score: lands_mined_on, value: wallet_id });
-      planetsMinedOn.push({ score: planets_mined_on, value: wallet_id });
+      avgToolNftPower.push({ score: avg_tool_nft_power, member: wallet_id });
+      landsMinedOn.push({ score: lands_mined_on, member: wallet_id });
+      planetsMinedOn.push({ score: planets_mined_on, member: wallet_id });
     }
+
+    console.log("LeaderboardSort.TlmGainsTotal -- ", tlmGainsTotal);
 
     this.collections.get(LeaderboardSort.TlmGainsTotal).insert(tlmGainsTotal);
     this.collections
