@@ -36,12 +36,13 @@
     redis "^4.6.5"
     reflect-metadata "^0.1.13"
 
-"@alien-worlds/atomicassets-api-common@^0.0.2":
-  version "0.0.2"
-  resolved "https://npm.pkg.github.com/download/@alien-worlds/atomicassets-api-common/0.0.2/d2758ee0dbf9c237a6ad47c9fdb98d8c33b27244#d2758ee0dbf9c237a6ad47c9fdb98d8c33b27244"
-  integrity sha512-4dOC1t5vBLH0Iov8W8LjQ3kEEfAOrrj+RsUvTH6pH+C97xYapxaTbmonelnxXH71XSvawDB9a7eDVUrt+L1jsg==
+"@alien-worlds/aw-api-common-atomicassets@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-api-common-atomicassets/-/aw-api-common-atomicassets-0.0.6.tgz#a3bd4d1cf2ae8371293048184502d470b06606da"
+  integrity sha512-SrIrSYlOk/lkOB3LdUEE+tIojsnKKPkVvhnj6FYSOXaaJ7L9iTm/BJbmx/CHYlRfr+ILcTpQnj62JEu0Ajr7HA==
   dependencies:
-    "@alien-worlds/api-core" "^0.0.101"
+    "@alien-worlds/aw-core" "^0.0.21"
+    "@alien-worlds/aw-storage-mongodb" "^0.0.16"
     atomicassets "^1.5.1"
     crypto "^1.0.1"
     eosjs "^22.1.0"

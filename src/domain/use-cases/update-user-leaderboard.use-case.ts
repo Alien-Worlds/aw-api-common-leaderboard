@@ -1,10 +1,10 @@
-import { AtomicAsset } from '@alien-worlds/atomicassets-api-common';
-import { injectable, Result, UseCase } from '@alien-worlds/aw-core';
-import { nanoid } from 'nanoid';
+import { Result, UseCase, injectable } from '@alien-worlds/aw-core';
 
-import { MinigToolData } from '../../data/leaderboard.dtos';
+import { AtomicAsset } from '@alien-worlds/aw-api-common-atomicassets';
 import { Leaderboard } from '../entities/leaderboard';
 import { LeaderboardUpdate } from '../entities/leaderboard-update';
+import { MinigToolData } from '../../data/leaderboard.dtos';
+import { nanoid } from 'nanoid';
 
 /**
  * @class

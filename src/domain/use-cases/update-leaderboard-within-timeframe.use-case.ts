@@ -1,4 +1,4 @@
-import { AtomicAsset } from '@alien-worlds/atomicassets-api-common';
+import { AtomicAsset } from '@alien-worlds/aw-api-common-atomicassets';
 import { Failure, inject, injectable, OperationStatus, Result, UseCase } from '@alien-worlds/aw-core';
 
 import { MinigToolData } from '../../data/leaderboard.dtos';
