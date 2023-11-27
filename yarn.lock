@@ -36,10 +36,10 @@
     redis "^4.6.5"
     reflect-metadata "^0.1.13"
 
-"@alien-worlds/aw-api-common-atomicassets@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-api-common-atomicassets/-/aw-api-common-atomicassets-0.0.6.tgz#a3bd4d1cf2ae8371293048184502d470b06606da"
-  integrity sha512-SrIrSYlOk/lkOB3LdUEE+tIojsnKKPkVvhnj6FYSOXaaJ7L9iTm/BJbmx/CHYlRfr+ILcTpQnj62JEu0Ajr7HA==
+"@alien-worlds/aw-api-common-atomicassets@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@alien-worlds/aw-api-common-atomicassets/-/aw-api-common-atomicassets-0.0.7.tgz#8431b94cb74d5e1c173de4cac6d61222a3956190"
+  integrity sha512-d8SrZIA4h+YNV0WpIYUXdih8RMeH6Kdrbt+zHFCWv5+h47pkkK+eaDytJ3pk2oU+r7XT7y0UIcn9VMyGGvKvRQ==
   dependencies:
     "@alien-worlds/aw-core" "^0.0.21"
     "@alien-worlds/aw-storage-mongodb" "^0.0.16"
