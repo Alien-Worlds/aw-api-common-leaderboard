@@ -2,9 +2,10 @@ import { LeaderboardUpdateDocument, LeaderboardUpdateJson } from '../../data/lea
 import { parseToBigInt, removeUndefinedProperties } from '@alien-worlds/aw-core';
 
 import { MongoDB } from '@alien-worlds/aw-storage-mongodb';
-import { NotifyWorldContract } from '@alien-worlds/alienworlds-api-common';
+import * as NotifyWorldContract from '@alien-worlds/aw-contract-notify-world';
 import { floatToPreciseInt } from '../../leaderboard.utils';
 import { nanoid } from 'nanoid';
+
 
 /**
  * @class
@@ -55,7 +56,7 @@ export class LeaderboardUpdate {
   public static fromLogmineJson(
     blockNumber: string | number | bigint,
     blockTimestamp: Date,
-    json: NotifyWorldContract.Actions.Types.LogmineStruct,
+    json: NotifyWorldContract.Actions.Types.LogmineRawModel,
     decimalPrecision = 4
   ): LeaderboardUpdate {
     const { miner, land_id, planet_name, bag_items, params } = json;
