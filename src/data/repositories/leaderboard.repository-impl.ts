@@ -1,9 +1,9 @@
-import { Failure, Result, UpdateStatus } from '@alien-worlds/api-core';
+import { Failure, OperationStatus, Result } from '@alien-worlds/aw-core';
 
+import { Leaderboard } from '../../domain/entities/leaderboard';
 import { LeaderboardArchiveMongoSource } from '../data-sources/leaderboard-archive.mongo.source';
 import { LeaderboardRankingsRedisSource } from '../data-sources/leaderboard-rankings.redis.source';
 import { LeaderboardRepository } from '../../domain/repositories/leaderboard.repository';
-import { Leaderboard } from '../../domain/entities/leaderboard';
 import { LeaderboardSnapshotMongoSource } from '../data-sources/leaderboard-snapshot.mongo.source';
 
 export class LeaderboardRepositoryImpl implements LeaderboardRepository {
@@ -12,7 +12,7 @@ export class LeaderboardRepositoryImpl implements LeaderboardRepository {
     protected readonly snapshotSource: LeaderboardSnapshotMongoSource,
     protected readonly rankingsSource: LeaderboardRankingsRedisSource,
     protected readonly archiveBatchSize: number
-  ) {}
+  ) { }
 
   public async findUsers(
     wallets: string[],
@@ -154,23 +154,32 @@ export class LeaderboardRepositoryImpl implements LeaderboardRepository {
 
   public async update(
     leaderboards: Leaderboard[]
-  ): Promise<Result<UpdateStatus.Success | UpdateStatus.Failure>> {
+  ): Promise<Result<OperationStatus.Success | OperationStatus.Failure>> {
     try {
       const { rankingsSource, snapshotSource } = this;
       const structs = leaderboards.map(leaderboard => leaderboard.toJson());
-      const documents = leaderboards.map(leaderboard =>
-        leaderboard.toDocument()
-      );
+      const documents = leaderboards.map(leaderboard => {
+        {
+          const doc = leaderboard.toDocument();
+
+          const filter = { wallet_id: doc.wallet_id };
+          const update = { $set: { ...doc }, };
+          return {
+            updateOne: {
+              filter: filter,
+              update: update,
+              upsert: true
+            }
+          };
+        }
+      });
 
       await Promise.all([
         rankingsSource.update(structs),
-        snapshotSource.updateMany(documents, {
-          by: 'wallet_id',
-          options: { upsert: true },
-        }),
+        snapshotSource.update(documents),
       ]);
 
-      return Result.withContent(UpdateStatus.Success);
+      return Result.withContent(OperationStatus.Success);
     } catch (error) {
       return Result.withFailure(Failure.fromError(error));
     }

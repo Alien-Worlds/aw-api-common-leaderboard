@@ -1,4 +1,5 @@
-import { injectable } from '@alien-worlds/api-core';
+import { injectable } from '@alien-worlds/aw-core';
+
 import { LeaderboardRepository } from './leaderboard.repository';
 
 /**

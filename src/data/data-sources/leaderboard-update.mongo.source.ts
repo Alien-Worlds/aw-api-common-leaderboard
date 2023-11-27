@@ -1,16 +1,12 @@
-import {
-  CollectionMongoSource,
-  DataSourceOperationError,
-  MongoSource,
-} from '@alien-worlds/api-core';
-import { LeaderboardUpdateDocument } from '../leaderboard.dtos';
+import { MongoCollectionSource, MongoSource } from '@alien-worlds/aw-storage-mongodb';
 
-/*imports*/
+import { DataSourceError } from '@alien-worlds/aw-core';
+import { LeaderboardUpdateDocument } from '../leaderboard.dtos';
 
 /**
  * @class
  */
-export class LeaderboardUpdateMongoSource extends CollectionMongoSource<LeaderboardUpdateDocument> {
+export class LeaderboardUpdateMongoSource extends MongoCollectionSource<LeaderboardUpdateDocument> {
   /**
    * @constructor
    * @param {MongoSource} mongoSource
@@ -35,7 +31,7 @@ export class LeaderboardUpdateMongoSource extends CollectionMongoSource<Leaderbo
       const result = await this.collection.findOneAndDelete({});
       return result.value;
     } catch (error) {
-      throw DataSourceOperationError.fromError(error);
+      throw DataSourceError.createError(error);
     }
   }
 }

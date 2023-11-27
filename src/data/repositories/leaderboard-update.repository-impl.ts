@@ -1,18 +1,19 @@
-import { Failure, Result, log } from '@alien-worlds/api-core';
-import { LeaderboardUpdateRepository } from '../../domain/repositories/leaderboard-update.repository';
+import { Failure, Result, log } from '@alien-worlds/aw-core';
+
 import { LeaderboardUpdate } from '../../domain/entities/leaderboard-update';
 import { LeaderboardUpdateMongoSource } from '../data-sources/leaderboard-update.mongo.source';
 import { LeaderboardUpdateNotFoundError } from '../../domain/errors/leaderboard-update-not-found.error';
+import { LeaderboardUpdateRepository } from '../../domain/repositories/leaderboard-update.repository';
 
 export class LeaderboardUpdateRepositoryImpl implements LeaderboardUpdateRepository {
   private cache: LeaderboardUpdate[] = [];
-  constructor(protected readonly mongoSource: LeaderboardUpdateMongoSource) {}
+  constructor(protected readonly mongoSource: LeaderboardUpdateMongoSource) { }
 
   public async add(updates: LeaderboardUpdate[]): Promise<Result> {
     try {
       const documents = updates.map(update => update.toDocument());
       if (documents.length > 0) {
-        await this.mongoSource.insertMany(documents);
+        await this.mongoSource.insert(documents);
       }
       return Result.withoutContent();
     } catch (error) {
@@ -38,7 +39,7 @@ export class LeaderboardUpdateRepositoryImpl implements LeaderboardUpdateReposit
 
   public async count(): Promise<Result<number>> {
     try {
-      const count = await this.mongoSource.count({});
+      const count = await this.mongoSource.count();
       const cacheSize = this.cache.length;
       log(`Updates stored in DB: ${count}, cache: ${cacheSize}`);
       return Result.withContent(count + cacheSize);

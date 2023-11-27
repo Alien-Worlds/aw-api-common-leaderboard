@@ -1,6 +1,6 @@
 {
-  "name": "@alien-worlds/leaderboard-api-common",
-  "version": "0.0.12",
+  "name": "@alien-worlds/aw-api-common-leaderboard",
+  "version": "0.0.17",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "files": [
@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:Alien-Worlds/leaderboard-api-common.git"
+    "url": "git@github.com:Alien-Worlds/aw-api-common-leaderboard.git"
   },
   "author": "rkamysz <radoslaw.kamysz@gmail.com>",
   "license": "ISC",
@@ -33,8 +33,10 @@
   },
   "dependencies": {
     "@alien-worlds/alienworlds-api-common": "^0.0.82",
-    "@alien-worlds/api-core": "^0.0.101",
-    "@alien-worlds/atomicassets-api-common": "^0.0.2",
+    "@alien-worlds/aw-api-common-atomicassets": "^0.0.6",
+    "@alien-worlds/aw-core": "^0.0.21",
+    "@alien-worlds/aw-storage-mongodb": "^0.0.16",
+    "@alien-worlds/aw-storage-redis": "^0.0.7",
     "atomicassets": "^1.5.1",
     "crypto": "^1.0.1",
     "eosjs": "^22.1.0"

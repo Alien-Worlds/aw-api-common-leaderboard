@@ -1,4 +1,5 @@
-import { Result, injectable } from '@alien-worlds/api-core';
+import { injectable, Result } from '@alien-worlds/aw-core';
+
 import { LeaderboardUpdate } from '../entities/leaderboard-update';
 
 /**

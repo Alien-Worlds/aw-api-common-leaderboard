@@ -1,15 +1,10 @@
-import { nanoid } from 'nanoid';
-import {
-  removeUndefinedProperties,
-  MongoDB,
-  parseToBigInt,
-} from '@alien-worlds/api-core';
-import {
-  LeaderboardUpdateDocument,
-  LeaderboardUpdateJson,
-} from '../../data/leaderboard.dtos';
-import { floatToPreciseInt } from '../../leaderboard.utils';
+import { LeaderboardUpdateDocument, LeaderboardUpdateJson } from '../../data/leaderboard.dtos';
+import { parseToBigInt, removeUndefinedProperties } from '@alien-worlds/aw-core';
+
+import { MongoDB } from '@alien-worlds/aw-storage-mongodb';
 import { NotifyWorldContract } from '@alien-worlds/alienworlds-api-common';
+import { floatToPreciseInt } from '../../leaderboard.utils';
+import { nanoid } from 'nanoid';
 
 /**
  * @class
@@ -153,7 +148,7 @@ export class LeaderboardUpdate {
     public readonly updateId: string,
     public readonly id?: string,
     public readonly miningCounter?: number
-  ) {}
+  ) { }
 
   /**
    *

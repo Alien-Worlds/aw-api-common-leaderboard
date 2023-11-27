@@ -1,16 +1,10 @@
-import {
-  LeaderboardDocument,
-  LeaderboardJson,
-} from '../../data/leaderboard.dtos';
-import {
-  MongoDB,
-  parseToBigInt,
-  removeUndefinedProperties,
-} from '@alien-worlds/api-core';
-
-import { LeaderboardNumbers } from './../../data/leaderboard.dtos';
+import { parseToBigInt, removeUndefinedProperties } from '@alien-worlds/aw-core';
+import { MongoDB } from '@alien-worlds/aw-storage-mongodb';
 import { nanoid } from 'nanoid';
+
+import { LeaderboardDocument, LeaderboardJson } from '../../data/leaderboard.dtos';
 import { LeaderboardSort } from '../leaderboard.enums';
+import { LeaderboardNumbers } from './../../data/leaderboard.dtos';
 
 /**
  * @class
@@ -300,7 +294,7 @@ export class Leaderboard {
     public readonly lastUpdateId: string,
     public readonly rankings: Map<string, number>,
     public readonly id: string
-  ) {}
+  ) { }
 
   public get uniqueToolsUsed(): number {
     return this.toolsUsed.length;

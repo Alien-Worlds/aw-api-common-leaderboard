@@ -1,25 +1,18 @@
-import {
-  Failure,
-  inject,
-  injectable,
-  Result,
-  UpdateStatus,
-  UseCase,
-} from '@alien-worlds/api-core';
-import { AtomicAsset } from '@alien-worlds/atomicassets-api-common';
+import { AtomicAsset } from '@alien-worlds/aw-api-common-atomicassets';
+import { Failure, inject, injectable, OperationStatus, Result, UseCase } from '@alien-worlds/aw-core';
 
 import { MinigToolData } from '../../data/leaderboard.dtos';
 import { Leaderboard } from '../entities/leaderboard';
 import { LeaderboardUpdate } from '../entities/leaderboard-update';
-import { DailyLeaderboardRepository } from '../repositories/daily-leaderboard.repository';
-import { LeaderboardTimeframe } from '../leaderboard.enums';
-import { WeeklyLeaderboardRepository } from '../repositories/weekly-leaderboard.repository';
-import { MonthlyLeaderboardRepository } from '../repositories/monthly-leaderboard.repository';
-import { LeaderboardRepository } from '../repositories/leaderboard.repository';
+import { LeaderboardUpdateError } from '../errors/leaderboard-update.error';
 import { UnknownLeaderboardTimeframeError } from '../errors/unknown-leaderboard-timeframe.error';
+import { LeaderboardTimeframe } from '../leaderboard.enums';
+import { DailyLeaderboardRepository } from '../repositories/daily-leaderboard.repository';
+import { LeaderboardRepository } from '../repositories/leaderboard.repository';
+import { MonthlyLeaderboardRepository } from '../repositories/monthly-leaderboard.repository';
+import { WeeklyLeaderboardRepository } from '../repositories/weekly-leaderboard.repository';
 import { CreateUserLeaderboardUseCase } from './create-user-leaderboard.use-case';
 import { UpdateUserLeaderboardUseCase } from './update-user-leaderboard.use-case';
-import { LeaderboardUpdateError } from '../errors/leaderboard-update.error';
 
 /*imports*/
 /**
@@ -27,7 +20,7 @@ import { LeaderboardUpdateError } from '../errors/leaderboard-update.error';
  */
 @injectable()
 export class UpdateLeaderboardWithinTimeframeUseCase
-  implements UseCase<UpdateStatus.Success | UpdateStatus.Failure>
+  implements UseCase<OperationStatus.Success | OperationStatus.Failure>
 {
   public static Token = 'UPDATE_LEADERBOARD_WITHIN_TIMEFRAME_USE_CASE';
 
@@ -42,7 +35,7 @@ export class UpdateLeaderboardWithinTimeframeUseCase
     private createLeaderboardEntryUseCase: CreateUserLeaderboardUseCase,
     @inject(UpdateUserLeaderboardUseCase.Token)
     private updateLeaderboardEntryUseCase: UpdateUserLeaderboardUseCase
-  ) {}
+  ) { }
 
   /**
    * @async
@@ -52,7 +45,7 @@ export class UpdateLeaderboardWithinTimeframeUseCase
     updates: LeaderboardUpdate[],
     assets?: AtomicAsset<MinigToolData>[]
   ): Promise<
-    Result<UpdateStatus.Success | UpdateStatus.Failure, LeaderboardUpdateError>
+    Result<OperationStatus.Success | OperationStatus.Failure, LeaderboardUpdateError>
   > {
     const newUpdates: Leaderboard[] = [];
     const failedUpdates: LeaderboardUpdate[] = [];
@@ -133,7 +126,7 @@ export class UpdateLeaderboardWithinTimeframeUseCase
       );
     }
 
-    return Result.withContent(UpdateStatus.Success);
+    return Result.withContent(OperationStatus.Success);
   }
 
   /*methods*/

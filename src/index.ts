@@ -3,7 +3,6 @@ export * from './data/data-sources/leaderboard-rankings.redis.source';
 export * from './data/data-sources/leaderboard-snapshot.mongo.source';
 export * from './data/data-sources/leaderboard-update.mongo.source';
 export * from './data/leaderboard.dtos';
-export * from './data/mappers/leaderboard.mapper';
 export * from './data/repositories/leaderboard-update.repository-impl';
 export * from './data/repositories/leaderboard.repository-impl';
 export * from './domain/entities/leaderboard';
