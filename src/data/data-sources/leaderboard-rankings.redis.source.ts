@@ -1,8 +1,15 @@
 import { log, OperationStatus } from '@alien-worlds/aw-core';
-import { RedisSortedSetCollectionSource, RedisSource } from '@alien-worlds/aw-storage-redis';
+import {
+  RedisSortedSetCollectionSource,
+  RedisSource,
+} from '@alien-worlds/aw-storage-redis';
 
 import { LeaderboardSort } from '../../domain/leaderboard.enums';
-import { LeaderboardJson, LeaderboardUserRankingsJson, LeaderboardUserScoresJson } from '../leaderboard.dtos';
+import {
+  LeaderboardJson,
+  LeaderboardUserRankingsJson,
+  LeaderboardUserScoresJson,
+} from '../leaderboard.dtos';
 
 /**
  * @class
@@ -126,7 +133,10 @@ export class LeaderboardRankingsRedisSource {
       tlmGainsTotal.push({ score: tlm_gains_total, member: wallet_id });
       totalNftPoints.push({ score: total_nft_points, member: wallet_id });
       uniqueToolsUsed.push({ score: unique_tools_used, member: wallet_id });
-      avgToolChargeTime.push({ score: avg_tool_charge_time, member: wallet_id });
+      avgToolChargeTime.push({
+        score: avg_tool_charge_time,
+        member: wallet_id,
+      });
       avgChargeTime.push({ score: avg_charge_time, member: wallet_id });
       avgMiningPower.push({ score: avg_mining_power, member: wallet_id });
       avgNftPower.push({ score: avg_nft_power, member: wallet_id });
@@ -139,20 +149,18 @@ export class LeaderboardRankingsRedisSource {
       planetsMinedOn.push({ score: planets_mined_on, member: wallet_id });
     }
 
-    console.log("LeaderboardSort.TlmGainsTotal -- ", tlmGainsTotal);
+    console.log('LeaderboardSort.TlmGainsTotal -- ', tlmGainsTotal);
 
     this.collections.get(LeaderboardSort.TlmGainsTotal).insert(tlmGainsTotal);
-    this.collections
-      .get(LeaderboardSort.TotalNftPoints)
-      .insert(totalNftPoints);
+    this.collections.get(LeaderboardSort.TotalNftPoints).insert(totalNftPoints);
     this.collections
       .get(LeaderboardSort.UniqueToolsUsed)
       .insert(uniqueToolsUsed);
-    this.collections.get(LeaderboardSort.AvgToolChargeTime).insert(avgToolChargeTime);
-    this.collections.get(LeaderboardSort.AvgChargeTime).insert(avgChargeTime);
     this.collections
-      .get(LeaderboardSort.AvgMiningPower)
-      .insert(avgMiningPower);
+      .get(LeaderboardSort.AvgToolChargeTime)
+      .insert(avgToolChargeTime);
+    this.collections.get(LeaderboardSort.AvgChargeTime).insert(avgChargeTime);
+    this.collections.get(LeaderboardSort.AvgMiningPower).insert(avgMiningPower);
     this.collections.get(LeaderboardSort.AvgNftPower).insert(avgNftPower);
     this.collections
       .get(LeaderboardSort.AvgToolMiningPower)
@@ -161,9 +169,7 @@ export class LeaderboardRankingsRedisSource {
       .get(LeaderboardSort.AvgToolNftPower)
       .insert(avgToolNftPower);
     this.collections.get(LeaderboardSort.LandsMinedOn).insert(landsMinedOn);
-    this.collections
-      .get(LeaderboardSort.PlanetsMinedOn)
-      .insert(planetsMinedOn);
+    this.collections.get(LeaderboardSort.PlanetsMinedOn).insert(planetsMinedOn);
   }
 
   public async getRankings(
@@ -259,18 +265,22 @@ export class LeaderboardRankingsRedisSource {
     }
 
     const list = await this.collections.get(sort).list({
-      offset, limit, order
+      offset,
+      limit,
+      order,
     });
     const wallets = list.map(doc => doc.member);
-    const scores = await this.getScores(wallets);
-    const jsons = [];
+    const ranks = await this.getRankings(wallets);
+    const jsons: LeaderboardJson[] = [];
 
     for (const item of list) {
-      const { score: rank, member } = item;
-      const json: LeaderboardJson = scores[member];
-      json.wallet_id = member;
-      json.rankings = { [sort]: rank > -1 ? rank + 1 : -1 };
-      jsons.push(json);
+      const { score, member: wallet_id } = item;
+      const rank = ranks[wallet_id]?.[sort] || -1;
+      jsons.push({
+        wallet_id,
+        [sort]: score,
+        rankings: { [sort]: rank > -1 ? rank + 1 : -1 },
+      });
     }
 
     return jsons;
