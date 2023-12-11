@@ -279,7 +279,7 @@ export class LeaderboardRankingsRedisSource {
       jsons.push({
         wallet_id,
         [sort]: score,
-        rankings: { [sort]: rank > -1 ? rank + 1 : -1 },
+        rankings: { [sort]: rank },
       });
     }
 
