@@ -1,39 +1,86 @@
-#!/bin/sh
+#!/usr/bin/env bash
+#
+# Release this package to npm.
+#
+#   scripts/deploy.sh [patch|minor|major|pre|x.y.z] [--dry-run]
+#
+# Run from a clean, up-to-date `main`, logged in to npm (`npm login`) with
+# publish rights to the package's scope. The default bump is patch. `pre` makes a
+# prerelease (prepatch) and publishes it under the `next` dist-tag, so it never
+# becomes `latest`.
+#
+#   --dry-run     run every check, build and `npm publish --dry-run`; make no
+#                 commit, tag, push or publish
+#   SKIP_TESTS=1  skip `yarn test:unit` (for example when the tests need a
+#                 service that is not running locally)
+#
+# Order matters: the version commit and tag are made locally, the package is
+# published, and only then are the commit and tag pushed. A failed publish
+# therefore never leaves a pushed version with no package behind it.
 
-error_exit()
-{
-    echo "Error: $1"
-    exit 1
+set -euo pipefail
+
+BRANCH=main
+TYPE=patch
+DRY_RUN=0
+PUBLISH_ARGS=()
+
+error_exit() {
+  echo "Error: $1" >&2
+  exit 1
 }
 
-# major | minor | patch
-TYPE=patch
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run) DRY_RUN=1 ;;
+    major | minor | patch) TYPE=$arg ;;
+    pre) TYPE=prepatch ;;
+    *)
+      if [[ $arg =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        TYPE=$arg
+      else
+        error_exit "Unknown argument \"$arg\". Use major | minor | patch | pre | x.y.z, optionally with --dry-run."
+      fi
+      ;;
+  esac
+done
 
-if [[ $1 =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
-  then
-    TYPE=$1
-elif [[ $1 == "major" ]] || [[ $1 == "minor" ]] || [[ $1 == "patch" ]]
-  then
-    TYPE=$1
-elif [[ $1 == "" ]]
-  then
-    TYPE=patch
-else
-    printf "Unknown update type \"%s\".\n- Please use \"major\" | \"minor\" | \"patch\"\n" "$1"
-    exit 1;
+[[ "$TYPE" == "prepatch" ]] && PUBLISH_ARGS=(--tag next)
+
+cd "$(git rev-parse --show-toplevel)"
+
+[[ "$(git branch --show-current)" == "$BRANCH" ]] || error_exit "Releases are made from $BRANCH. Check it out first."
+[[ -z "$(git status --porcelain)" ]] || error_exit "Working tree is not clean. Commit or stash your changes first."
+
+git fetch origin --tags --quiet || error_exit "Fetching origin failed"
+git pull --ff-only --quiet || error_exit "$BRANCH has diverged from origin/$BRANCH"
+
+NPM_USER=$(npm whoami 2>/dev/null) || error_exit "Not logged in to npm. Run \"npm login\" first."
+echo "Releasing as npm user: $NPM_USER (bump: $TYPE)"
+
+yarn install --frozen-lockfile --ignore-scripts || error_exit "Install failed"
+yarn lint || error_exit "Lint failed"
+if [[ "${SKIP_TESTS:-0}" != "1" ]]; then
+  yarn test:unit || error_exit "Tests failed"
+fi
+yarn prepublish || error_exit "Build failed"
+
+if [[ $DRY_RUN == 1 ]]; then
+  npm publish --access public ${PUBLISH_ARGS[@]+"${PUBLISH_ARGS[@]}"} --dry-run || error_exit "Dry-run publish failed"
+  echo "Dry run complete. Nothing was versioned, tagged, pushed or published."
+  exit 0
 fi
 
-# Build package
-yarn prepublish || error_exit "Prepublish failed"
+# Bumps package.json and makes the version commit and tag locally.
+npm version "$TYPE" || error_exit "Failed to set a new version of the package"
+VERSION=$(node -p "require('./package.json').version")
 
-# Pull latest changes
-git pull || error_exit "Pulling failed"
+if ! npm publish --access public ${PUBLISH_ARGS[@]+"${PUBLISH_ARGS[@]}"}; then
+  echo "Error: publish failed. The local commit and tag v$VERSION were not pushed." >&2
+  echo "To undo them: git tag -d v$VERSION && git reset --hard HEAD~1" >&2
+  exit 1
+fi
 
-# Update version and commit
-npm version $TYPE || error_exit "Failed to set a new version of the package"
+git push origin "$BRANCH" "v$VERSION" || error_exit "Published v$VERSION but pushing failed. Run: git push origin $BRANCH v$VERSION"
 
-# Push changed package.json
-git push origin || error_exit "Failed to submit changes to the repository"
-
-# publish package
-npm publish --access public || error_exit "Failed to publish a new version"
+echo "Released v$VERSION"
