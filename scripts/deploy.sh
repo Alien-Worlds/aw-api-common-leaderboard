@@ -59,9 +59,15 @@ NPM_USER=$(npm whoami 2>/dev/null) || error_exit "Not logged in to npm. Run \"np
 echo "Releasing as npm user: $NPM_USER (bump: $TYPE)"
 
 yarn install --frozen-lockfile --ignore-scripts || error_exit "Install failed"
-yarn lint || error_exit "Lint failed"
+# Not every repo has a lint script, and some have no tests at all.
+has_script() { node -e "process.exit(require('./package.json').scripts?.['$1'] ? 0 : 1)"; }
+if has_script lint; then
+  yarn lint || error_exit "Lint failed"
+else
+  echo "No lint script; skipping lint."
+fi
 if [[ "${SKIP_TESTS:-0}" != "1" ]]; then
-  yarn test:unit || error_exit "Tests failed"
+  yarn test:unit --passWithNoTests || error_exit "Tests failed"
 fi
 yarn prepublish || error_exit "Build failed"
 
