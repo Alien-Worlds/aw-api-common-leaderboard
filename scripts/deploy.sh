@@ -72,6 +72,13 @@ fi
 yarn prepublish || error_exit "Build failed"
 
 if [[ $DRY_RUN == 1 ]]; then
+  # A dry run makes no version commit, so package.json still holds the version that is
+  # already on npm and the registry refuses it ("cannot publish over the previously
+  # published version"). Bump the version in the working tree only, dry-publish that,
+  # and always put package.json back.
+  trap 'git checkout --quiet -- package.json' EXIT
+  npm version "$TYPE" --no-git-tag-version > /dev/null || error_exit "Failed to work out the next version"
+  echo "Dry run: would publish $(node -p "require('./package.json').name + '@' + require('./package.json').version")"
   npm publish --access public ${PUBLISH_ARGS[@]+"${PUBLISH_ARGS[@]}"} --dry-run || error_exit "Dry-run publish failed"
   echo "Dry run complete. Nothing was versioned, tagged, pushed or published."
   exit 0
