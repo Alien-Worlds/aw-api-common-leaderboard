@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  test:
+    name: Lint, build and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+
+      # --ignore-scripts: yarn 1 runs the package's own prepublish (tsc) on install
+      - run: yarn install --frozen-lockfile --ignore-scripts
+
+      - run: yarn build
+
+      - run: yarn test:unit --passWithNoTests
+
+      # Report only. Most findings are transitive through @alien-worlds/* packages.
+      - name: Dependency audit (non-blocking)
+        run: yarn audit --groups dependencies
+        continue-on-error: true
