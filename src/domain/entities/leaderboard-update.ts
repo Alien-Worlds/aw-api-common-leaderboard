@@ -2,10 +2,35 @@ import { LeaderboardUpdateDocument, LeaderboardUpdateJson } from '../../data/lea
 import { parseToBigInt, removeUndefinedProperties } from '@alien-worlds/aw-core';
 
 import { MongoDB } from '@alien-worlds/aw-storage-mongodb';
-import * as NotifyWorldContract from '@alien-worlds/aw-contract-notify-world';
 import { floatToPreciseInt } from '../../leaderboard.utils';
 import { nanoid } from 'nanoid';
 
+
+/**
+ * The fields of a notify.world `logmine` action that this package reads.
+ *
+ * Declared locally instead of imported from @alien-worlds/aw-contract-notify-world:
+ * that package is used here for this one type only, and depending on it pulled
+ * aw-antelope, eosjs, elliptic and bn.js into every consumer. The shape is
+ * structurally compatible with notify-world's LogmineRawModel, so callers passing
+ * that type keep working.
+ */
+export type LogmineRawModel = {
+  miner?: string;
+  params?: {
+    ease?: number;
+    luck?: number;
+    difficulty?: number;
+    delay?: number;
+    [key: string]: unknown;
+  };
+  /** formatted asset, for example "1.2345 TLM" */
+  bounty?: string;
+  land_id?: number;
+  planet_name?: string;
+  bag_items?: number[];
+  [key: string]: unknown;
+};
 
 /**
  * @class
@@ -56,7 +81,7 @@ export class LeaderboardUpdate {
   public static fromLogmineJson(
     blockNumber: string | number | bigint,
     blockTimestamp: Date,
-    json: NotifyWorldContract.Actions.Types.LogmineRawModel,
+    json: LogmineRawModel,
     decimalPrecision = 4
   ): LeaderboardUpdate {
     const { miner, land_id, planet_name, bag_items, params } = json;
